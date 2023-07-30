@@ -1,0 +1,8 @@
+id,created_at,name,maxCapacity,regularPrice,discount,description,image
+2,2023-07-30 03:08:35.334397+00,002,2,500,75,Cabin 2,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-002.jpg?t=2023-07-30T03%3A09%3A02.147Z
+3,2023-07-30 05:30:06.27349+00,003,4,300,10,For testing purposes,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-003.jpg?t=2023-07-30T05%3A31%3A59.924Z
+4,2023-07-30 05:31:40.392147+00,004,8,600,30,Big room,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-004.jpg?t=2023-07-30T05%3A32%3A17.240Z
+5,2023-07-30 05:33:34.769357+00,005,3,380,0,forest,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-005.jpg?t=2023-07-30T05%3A33%3A39.391Z
+6,2023-07-30 05:33:34.769357+00,006,3,450,0,lake,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-006.jpg?t=2023-07-30T06%3A11%3A55.951Z
+7,2023-07-30 05:33:34.769357+00,007,4,660,0,waterfall,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-007.jpg?t=2023-07-30T06%3A12%3A08.362Z
+8,2023-07-30 05:33:34.769357+00,008,10,780,0,birds,https://vtushcimdmmhxnhzuntl.supabase.co/storage/v1/object/public/cabin-images/cabin-008.jpg?t=2023-07-30T06%3A12%3A18.580Z
