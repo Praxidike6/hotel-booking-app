@@ -10,8 +10,8 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
- // import functions to create and edit cabins
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+  // import functions to create and edit cabins
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -29,8 +29,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   const { errors } = formState;
 
-  
-
   function onSubmit(data) {
     // check if the image is a reference:url or an actual image file
     const image = typeof data.image === "string" ? data.image : data.image[0];
@@ -39,14 +37,20 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
         {
-          onSuccess: (data) => reset(),
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
         }
       );
     else
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: (data) => reset(),
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
         }
       );
   }
@@ -56,7 +60,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
   // if errors in the form then the second function onError will be called instead of onSubmit
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -139,7 +146,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
@@ -163,8 +174,8 @@ export default CreateCabinForm;
       toast.error(err.message);
     },
   }); */
-  
-  /* const queryClient = useQueryClient();
+
+/* const queryClient = useQueryClient();
   const { mutate: editCabin, isLoading: isEditing } = useMutation({
     mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
     onSuccess: () => {
