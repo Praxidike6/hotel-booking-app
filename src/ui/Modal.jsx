@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { HiXMark } from "react-icons/hi2";
 import { createPortal } from "react-dom";
-import { cloneElement, createContext, useContext, useState } from "react";
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -74,11 +82,19 @@ function Open({ children, opens: opensWindowName }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-  if (name !== openName) return null;
-  // wrap in createPortal so modal can be linked to any DOM element as it's parent.
+
+  // setup event listener to close window when clicked outside of modal box
+  const ref = useOutsideClick(close);
+
+  // Allows only one modal box to be displayed at a times.
+  if (name !== openName) {
+    return null;
+  }
+
+  // wrap inside createPortal so modal can be linked to any DOM element as it's parent.
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
