@@ -1,21 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
 import { useDeleteCabin } from "./useDeleteCabin";
 import CreateCabinForm from "./CreateCabinForm";
 import { FcEmptyTrash, FcSupport, FcGallery } from "react-icons/fc";
 import { useCreateCabin } from "./useCreateCabin";
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 
 const Img = styled.img`
   display: block;
@@ -46,8 +37,7 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
-  const [showForm, setShowForm] = useState(false);
-  const {isCreating, createCabin} = useCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
   const {
     id: cabinId,
     name,
@@ -58,8 +48,7 @@ function CabinRow({ cabin }) {
     discount,
   } = cabin;
 
-  function handleDuplicate(){
-
+  function handleDuplicate() {
     createCabin({
       name: `Copy of ${name}`,
       maxCapacity,
@@ -67,53 +56,48 @@ function CabinRow({ cabin }) {
       image,
       regularPrice,
       discount,
-
     });
   }
 
-  /* const queryClient = useQueryClient();
-
-  // mutation used to delete cabins from the table
-   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
-    // invalidateQueries forces the cabins to be reloaded/rerendered.
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin has been successfully deleted.");
-    },
-    onError: (err) => {
-      toast.error(err.message());
-    },
-  }); */
-
   return (
-    <>
-      <TableRow role="row">
-        <Img src={image} />
-        <Cabin>{name}</Cabin>
-        <div>Fits up to {maxCapacity} guests</div>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <span>&mdash;</span>
-        )}
-        <div>
-          <button onClick={() => handleDuplicate()} disabled={isCreating}>
-            <FcGallery />
-          </button>
-          <button onClick={() => setShowForm((showForm) => !showForm)}>
-            <FcSupport />
-          </button>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-            <FcEmptyTrash />
-          </button>
-        </div>
-      </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
-    </>
+    <Table.Row>
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <span>&mdash;</span>
+      )}
+      <div>
+        <button onClick={() => handleDuplicate()} disabled={isCreating}>
+          <FcGallery />
+        </button>
+        <Modal>
+          <Modal.Open opens="edit">
+            <butto>
+              <FcSupport />
+            </butto>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateCabinForm cabinToEdit={cabin} />
+          </Modal.Window>
+          <Modal.Open opens="delete">
+            <button>
+              <FcEmptyTrash />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="cabins"
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabinId)}
+            />
+          </Modal.Window>
+        </Modal>
+      </div>
+    </Table.Row>
   );
 }
 

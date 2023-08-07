@@ -11,8 +11,8 @@ export function useOutsideClick(handleFn, listenCaptureStage = true) {
           handleFn();
         }
       }
-      // if listenCaptureStage is true third it stops the event from bubbling up
-      // and allows the open modal button to work even though it is outside the window
+      // if listenCaptureStage is true it stops the event from bubbling up
+      // to a higher order component and allows the open modal button to work even though it is outside the window
       document.addEventListener("click", handleClick, listenCaptureStage);
 
       return () => {

@@ -1,26 +1,21 @@
-import { useState } from "react";
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
-import CabinTable from "./CabinTable";
 
 function AddCabin() {
+  // use modal box so form is layered on top of page
+  // Modal is a compound component .
   return (
-    <Modal>
-      <Modal.Open opens="cabin-form">
-        <Button>Add new cabin</Button>
-      </Modal.Open>
-      <Modal.Window name="cabin-form">
-        <CreateCabinForm />
-      </Modal.Window>
-
-      <Modal.Open opens="table">
-        <Button>Show table</Button>
-      </Modal.Open>
-      <Modal.Window name="table">
-        <CabinTable />
-      </Modal.Window>
-    </Modal>
+    <div>
+      <Modal>
+        <Modal.Open opens="cabin-form">
+          <Button>Add new cabin</Button>
+        </Modal.Open>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm />
+        </Modal.Window>
+      </Modal>
+    </div>
   );
 }
 
